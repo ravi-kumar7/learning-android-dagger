@@ -14,25 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.android.dagger.settings
+package com.example.android.dagger.di
 
-import com.example.android.dagger.user.UserDataRepository
-import com.example.android.dagger.user.UserManager
-import javax.inject.Inject
+import com.example.android.dagger.di.components.AppComponent
+import com.example.android.dagger.di.modules.AppSubcomponents
+import dagger.Component
+import javax.inject.Singleton
 
-/**
- * SettingsViewModel is the ViewModel that [SettingsActivity] uses to handle complex logic.
- */
-class SettingsViewModel @Inject constructor(
-    private val userDataRepository: UserDataRepository,
-    private val userManager: UserManager
-) {
-
-    fun refreshNotifications() {
-        userDataRepository.refreshUnreadNotifications()
-    }
-
-    fun logout() {
-        userManager.logout()
-    }
-}
+// Replacement for AppComponent in android tests
+@Singleton
+// Includes TestStorageModule that overrides objects provided in StorageModule
+@Component(modules = [TestStorageModule::class, AppSubcomponents::class])
+interface TestAppComponent : AppComponent

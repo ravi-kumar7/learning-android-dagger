@@ -16,12 +16,16 @@
 
 package com.example.android.dagger
 
-import com.example.android.dagger.storage.FakeStorage
-import com.example.android.dagger.user.UserManager
+import com.example.android.dagger.di.DaggerTestAppComponent
+import com.example.android.dagger.di.components.AppComponent
 
+/**
+ * MyTestApplication will override MyApplication in android tests
+ */
 class MyTestApplication : MyApplication() {
 
-    override val userManager by lazy {
-        UserManager(FakeStorage())
+    override fun initializeComponent(): AppComponent {
+        // Creates a new TestAppComponent that injects fakes types
+        return DaggerTestAppComponent.create()
     }
 }
